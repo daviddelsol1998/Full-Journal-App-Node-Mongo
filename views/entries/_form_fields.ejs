@@ -1,0 +1,26 @@
+<div class="form-group">
+  <label for="title">Title</label>
+  <input
+    required
+    value="<%= entry.title %>"
+    type="text"
+    name="title"
+    id="title"
+    class="form-control"
+  />
+</div>
+<div class="form-group">
+  <label for="description">Description</label>
+  <textarea name="description" id="description" class="form-control">
+<%= entry.description %></textarea
+  >
+</div>
+<div class="form-group">
+  <label for="journal">Journal entry</label>
+  <textarea required name="journal" id="journal" class="form-control">
+<%= entry.journal %></textarea
+  >
+</div>
+
+<a href="/" class="btn btn-secondary">Cancel</a>
+<button type="submit" class="btn btn-primary">Save</button>
