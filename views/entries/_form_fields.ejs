@@ -1,4 +1,4 @@
-<div class="form-group">
+<div id="grid-t">
   <label for="title">Title</label>
   <input
     required
@@ -6,21 +6,28 @@
     type="text"
     name="title"
     id="title"
-    class="form-control"
   />
-</div>
-<div class="form-group">
   <label for="description">Description</label>
-  <textarea name="description" id="description" class="form-control">
-<%= entry.description %></textarea
-  >
-</div>
-<div class="form-group">
-  <label for="journal">Journal entry</label>
-  <textarea required name="journal" id="journal" class="form-control">
-<%= entry.journal %></textarea
+  <input name="description" id="description" type="text" value="<%= entry.description %>"></input
   >
 </div>
 
+<!-- <div class="paper">
+  <div class="holes"></div>
+  <label for="journal">Journal entry:</label>
+  <textarea required name="journal" id="journal">
+<%= entry.journal %></textarea>
+</div> -->
+
+<div class="paper">
+  <div class="paper-content">
+    <textarea required name="journal" id="journal">
+      <%= entry.journal %></textarea>
+  </div>
+</div>
+
+<br>
+
 <a href="/" class="btn btn-secondary">Cancel</a>
 <button type="submit" class="btn btn-primary">Save</button>
+<br>
