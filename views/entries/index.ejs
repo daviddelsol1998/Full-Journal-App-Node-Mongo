@@ -14,23 +14,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cantarell&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/nav.css">
     <title>Journal</title>
   </head>
   <body>
-    <div class="container">
+    <div class="navs">
       <ul class="main-header__item-list">
         <% if (!isAuthenticated) { %>
               <li class="main-header__item">
-                  <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+                  <a class="<%= path === '/login' ? 'active' : '' %> btn btn-info link" href="/login">Login</a>
               </li>
               <li class="main-header__item">
-                  <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
+                  <a class="<%= path === '/signup' ? 'active' : '' %> btn btn-info link" href="/signup">Signup</a>
               </li>
           <% } else { %>
               <li class="main-header__item">
                   <form action="/logout" method="post">
                       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                      <button type="submit">Logout</button>
+                      <button type="submit" class="btn btn-info">Logout</button>
                   </form>
               </li>
           <% } %>

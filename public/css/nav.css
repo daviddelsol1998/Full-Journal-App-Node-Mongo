@@ -1,0 +1,13 @@
+li {
+    list-style-type: none;
+    margin: 0.5em;
+}
+
+ul {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.navs {
+    float: right;
+}
