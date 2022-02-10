@@ -73,8 +73,8 @@ app.get("/", async (req, res) => {
     });
 });
 
-app.use("/entries", entryRouter);
 app.use(authRoutes);
+app.use("/entries", entryRouter);
 
 mongoose.connect(MONGODB_URL, {
   useNewUrlParser: true,
