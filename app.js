@@ -42,6 +42,8 @@ app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
+  if (res.locals.isAuthenticated) { res.locals.user = req.session.user._id.toString(); }
+
   res.locals.csrfToken = req.csrfToken();
   next();
 });
@@ -67,10 +69,10 @@ app.use((req, res, next) => {
 app.get("/", async (req, res) => {
   const entries = await Entry.find().sort({ createdAt: "desc" });
   res.render("entries/index", {
-     entries: entries,
-     isAuthenticated: req.session.isLoggedIn,
-     path: '/index'
-    });
+    entries: entries,
+    isAuthenticated: req.session.isLoggedIn,
+    path: '/index'
+  });
 });
 
 app.use(authRoutes);
