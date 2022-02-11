@@ -6,6 +6,10 @@ const { JSDOM } = require("jsdom");
 const dompurify = createDomPurify(new JSDOM().window);
 
 const entrySchema = new mongoose.Schema({
+  user: {
+    type: String,
+    required: true
+  },
   title: {
     type: String,
     required: true,

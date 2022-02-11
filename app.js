@@ -1,29 +1,87 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Entry = require("./models/entries");
 const entryRouter = require("./routes/entries");
 const methodOverride = require("method-override");
 const path = require('path');
-const app = express();
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+const flash = require('connect-flash');
+const csrf = require('csurf');
+
+const User = require('./models/user')
+const Entry = require("./models/entries");
+const authRoutes = require('./routes/auth');
 
 const MONGODB_URL = "mongodb+srv://journal-admin:CSE341@cluster0.8ktbu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+
+const app = express();
+
+const store = new MongoDBStore({
+  uri: MONGODB_URL,
+  collection: 'sessions'
+});
+const csrfProtection = csrf();
+
+app.set("view engine", "ejs");
+app.set('views', 'views');
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride("_method"));
+
+app.use(
+  session({
+    secret: 'my secret',
+    resave: false,
+    saveUninitialized: false,
+    store: store
+  })
+);
+app.use(csrfProtection);
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  if (res.locals.isAuthenticated) { res.locals.user = req.session.user._id.toString(); }
+
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
+app.use((req, res, next) => {
+  // throw new Error('Sync Dummy');
+  if (!req.session.user) {
+    return next();
+  }
+  User.findById(req.session.user._id)
+    .then(user => {
+      if (!user) {
+        return next();
+      }
+      req.user = user;
+      next();
+    })
+    .catch(err => {
+      next(new Error(err));
+    });
+});
+
+app.get("/", async (req, res) => {
+  const entries = await Entry.find().sort({ createdAt: "desc" });
+  res.render("entries/index", {
+    entries: entries,
+    isAuthenticated: req.session.isLoggedIn,
+    path: '/index'
+  });
+});
+
+app.use(authRoutes);
+app.use("/entries", entryRouter);
 
 mongoose.connect(MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
 });
-
-app.set("view engine", "ejs");
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(methodOverride("_method"));
-
-app.get("/", async (req, res) => {
-  const entries = await Entry.find().sort({ createdAt: "desc" });
-  res.render("entries/index", { entries: entries });
-});
-
-app.use("/entries", entryRouter);
 
 app.listen(process.env.PORT || 3000);

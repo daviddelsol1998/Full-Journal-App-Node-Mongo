@@ -43,6 +43,7 @@ router.delete("/:id", async (req, res) => {
 function saveEntryAndRedirect(path) {
   return async (req, res) => {
     let entry = req.entry;
+    entry.user = req.session.user._id;
     entry.title = req.body.title;
     entry.description = req.body.description;
     entry.journal = req.body.journal;
