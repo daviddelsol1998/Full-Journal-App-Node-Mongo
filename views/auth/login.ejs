@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/forms.css">
     <link rel="stylesheet" href="/css/auth.css">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
     <title>Journal</title>
 </head>
 
@@ -44,7 +45,7 @@
                     value="<%= oldInput.password %>">
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class="btn" type="submit">Login</button>
+            <button class="btn btn-info" type="submit">Login</button>
         </form>
         <div style="text-align: center;" class="centered">
             <a href="/reset">Reset Password</a>

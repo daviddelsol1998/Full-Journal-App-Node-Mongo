@@ -18,39 +18,18 @@
     />
     <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
     <title>Journal</title>
   </head>
   <body>
-    <div class="navs">
-      <ul class="main-header__item-list">
-        <% if (!isAuthenticated) { %>
-        <li class="main-header__item">
-          <a
-            class="<%= path === '/login' ? 'active' : '' %> btn btn-info link"
-            href="/login"
-            >Login</a
-          >
-        </li>
-        <li class="main-header__item">
-          <a
-            class="<%= path === '/signup' ? 'active' : '' %> btn btn-info link"
-            href="/signup"
-            >Signup</a
-          >
-        </li>
-        <% } else { %>
-        <li class="main-header__item">
-          <form action="/logout" method="post">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-            <button type="submit" class="btn btn-info">Logout</button>
-          </form>
-        </li>
-        <% } %>
-      </ul>
-    </div>
+    <% if (isAuthenticated) { %> <% console.log("user: " + user) %>
     <div class="container">
-      <% if (isAuthenticated) { %> <% console.log("user: " + user) %>
-      <br />
+      <li class="right">
+        <form action="/logout" method="post">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <button type="submit" class="btn btn-info">Logout</button>
+        </form>
+      </li>
       <h1 class="mb-4">Journal Entries</h1>
       <a href="/entries/new" class="btn btn-success">New Entry</a>
 
@@ -77,12 +56,41 @@
             </form>
           </div>
         </div>
+      </div>
         <% } %>
       
       <% }) %> <% } else { %>
-      <h3>Please sign up to create your first entry</h3>
-      <h3>Or login to see your existing entries</h3>
+        <div class="landing">
+          <img id="main-image" src="/images/1.webp" alt="Main Logo">
+          <div class="navs">
+            <ul class="main-header__item-list">
+              <% console.log(isAuthenticated) %> 
+              <% if (!isAuthenticated) { %>
+              <li class="main-header__item">
+                <a
+                  class="<%= path === '/login' ? 'active' : '' %> btn btn-info link"
+                  href="/login"
+                  >Login</a
+                >
+              </li>
+              <li class="main-header__item">
+                <a
+                  class="<%= path === '/signup' ? 'active' : '' %> btn btn-info link"
+                  href="/signup"
+                  >Signup</a
+                >
+              </li>
+              <% } else { %>
+              <li class="main-header__item">
+                <form action="/logout" method="post">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                  <button type="submit" class="btn btn-info">Logout</button>
+                </form>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
       <% } %>
-    </div>
   </body>
 </html>
